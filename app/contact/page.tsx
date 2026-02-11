@@ -88,13 +88,13 @@ const ContactPage = () => {
 
       {/* Contact Methods */}
       <section className="contact-methods">
-        <div className="contact-methods-grid">
+        <div className="features-grid">
           {contactMethods.map((method, index) => (
-            <div key={index} className="contact-method-card">
-              <div className="contact-method-icon">{method.icon}</div>
-              <h3 className="contact-method-title">{method.title}</h3>
-              <p className="contact-method-detail">{method.detail}</p>
-              <p className="contact-method-description">{method.description}</p>
+            <div key={index} className="feature-card">
+              <div className="feature-icon">{method.icon}</div>
+              <h3>{method.title}</h3>
+              <p><strong>{method.detail}</strong></p>
+              <p>{method.description}</p>
             </div>
           ))}
         </div>
@@ -103,80 +103,81 @@ const ContactPage = () => {
       {/* Contact Form Section */}
       <section className="contact-form-section">
         <div className="contact-form-container">
-          <div className="contact-form-wrapper">
-            <h2 className="contact-form-title">Send Us a Message</h2>
-            <p className="contact-form-subtitle">
+          <div className="contact-form-header">
+            <h2>Send Us a Message</h2>
+            <p>
               Fill out the form below and we'll get back to you within 24 hours.
             </p>
+          </div>
 
-            {submitted ? (
-              <div className="contact-success-message">
-                <div className="contact-success-icon">✓</div>
-                <h3>Message Sent!</h3>
-                <p>Thank you for contacting us. We'll get back to you soon.</p>
-              </div>
-            ) : (
-              <form className="contact-form" onSubmit={handleSubmit}>
-                <div className="contact-input-row">
-                  <div className="contact-input-group">
-                    <label className="contact-label">Name</label>
-                    <input
-                      type="text"
-                      name="name"
-                      className="contact-input"
-                      placeholder="Your name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-
-                  <div className="contact-input-group">
-                    <label className="contact-label">Email</label>
-                    <input
-                      type="email"
-                      name="email"
-                      className="contact-input"
-                      placeholder="you@example.com"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="contact-input-group">
-                  <label className="contact-label">Subject</label>
+          {submitted ? (
+            <div className="contact-success-message">
+              <div className="contact-success-icon">✓</div>
+              <h3>Message Sent!</h3>
+              <p>Thank you for contacting us. We'll get back to you soon.</p>
+            </div>
+          ) : (
+            <form className="contact-form" onSubmit={handleSubmit}>
+              <div className="form-row">
+                <div className="form-group">
+                  <label className="form-label">Name</label>
                   <input
                     type="text"
-                    name="subject"
-                    className="contact-input"
-                    placeholder="What's this about?"
-                    value={formData.subject}
+                    name="name"
+                    className="form-input"
+                    placeholder="Your name"
+                    value={formData.name}
                     onChange={handleInputChange}
                     required
                   />
                 </div>
 
-                <div className="contact-input-group">
-                  <label className="contact-label">Message</label>
-                  <textarea
-                    name="message"
-                    className="contact-textarea"
-                    placeholder="Tell us how we can help..."
-                    rows={6}
-                    value={formData.message}
+                <div className="form-group">
+                  <label className="form-label">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    className="form-input"
+                    placeholder="you@example.com"
+                    value={formData.email}
                     onChange={handleInputChange}
                     required
                   />
                 </div>
+              </div>
 
-                <button type="submit" className="contact-submit-btn">
-                  Send Message
-                </button>
-              </form>
-            )}
-          </div>
+              <div className="form-group">
+                <label className="form-label">Subject</label>
+                <input
+                  type="text"
+                  name="subject"
+                  className="form-input"
+                  placeholder="What's this about?"
+                  value={formData.subject}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Message</label>
+                <textarea
+                  name="message"
+                  className="form-textarea"
+                  placeholder="Tell us how we can help..."
+                  rows={6}
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+
+              <button type="submit" className="form-submit-btn">
+                Send Message
+              </button>
+            </form>
+          )}
+
 
           {/* FAQ Sidebar */}
           <div className="contact-faq-sidebar">

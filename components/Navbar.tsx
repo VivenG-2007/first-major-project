@@ -5,19 +5,94 @@ import Link from 'next/link';
 import { useUser, SignOutButton } from "@clerk/nextjs";
 
 const Navbar = () => {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { isSignedIn, user } = useUser();
+
+  const [mounted, setMounted] = useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+    const storedTheme = localStorage.getItem('theme');
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    const initialTheme = storedTheme || systemTheme;
+
+    setTheme(initialTheme);
+
+    if (initialTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
-    document.documentElement.className = newTheme;
+    localStorage.setItem('theme', newTheme);
+
+    if (newTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
   };
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
+
+  const homeLink = isSignedIn ? '/dashboard' : '/';
+
+  // Prevent hydration mismatch by returning null or a skeleton until mounted
+  if (!mounted) {
+    return (
+      <nav className="navbar">
+        {/* Logo */}
+        <Link href="/" className="navbar-logo">
+          <div className="navbar-logo-icon">
+            <svg
+              viewBox="0 0 24 24"
+              width="40"
+              height="40"
+              fill="none"
+            >
+              {/* Cup */}
+              <path
+                d="M4 8h12v9c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V8z"
+                fill="currentColor"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                style={{ color: 'var(--primary)' }}
+              />
+              {/* Handle */}
+              <path
+                d="M16 10h1c1.1 0 2 .9 2 2v1c0 1.1-.9 2-2 2h-1"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                fill="none"
+                strokeLinecap="round"
+                style={{ color: 'var(--primary)' }}
+              />
+              {/* Steam */}
+              <path
+                d="M7 4c0 1-1 2-1 3M10 3c0 1-1 2-1 3M13 4c0 1-1 2-1 3"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                opacity="0.8"
+                style={{ color: 'var(--secondary)', animation: 'pulse 2s infinite' }}
+              />
+            </svg>
+          </div>
+
+          <span className="navbar-logo-text">
+            Get Me a Chai
+          </span>
+        </Link>
+      </nav>
+    );
+  }
 
   return (
     <nav className="navbar">
@@ -115,7 +190,7 @@ const Navbar = () => {
         </li>
 
         <li className="navbar-menu-item">
-          <Link href="/" style={{ textDecoration: 'none', color: 'inherit' }}>Home</Link>
+          <Link href={homeLink} style={{ textDecoration: 'none', color: 'inherit' }}>Home</Link>
         </li>
         <li className="navbar-menu-item">
           <Link href="/about" style={{ textDecoration: 'none', color: 'inherit' }}>About Us</Link>
@@ -184,7 +259,7 @@ const Navbar = () => {
           gap: '1rem',
           boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
         }}>
-          <Link href="/" className="navbar-menu-item" style={{ textDecoration: 'none' }}>Home</Link>
+          <Link href={homeLink} className="navbar-menu-item" style={{ textDecoration: 'none' }}>Home</Link>
           <Link href="/about" className="navbar-menu-item" style={{ textDecoration: 'none' }}>About Us</Link>
           <Link href="/contact" className="navbar-menu-item" style={{ textDecoration: 'none' }}>Contact</Link>
 
