@@ -1,8 +1,14 @@
-'use client';
-
 import React from 'react';
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 
-const HomePage = () => {
+const HomePage = async () => {
+  const { userId } = await auth();
+
+  if (userId) {
+    redirect('/dashboard');
+  }
+
   return (
     <div className="app-container">
       {/* Background Animation */}

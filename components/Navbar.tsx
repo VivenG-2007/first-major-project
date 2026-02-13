@@ -144,27 +144,8 @@ const Navbar = () => {
         <li>
           {/* Theme Toggle Button */}
           <button
+            className="theme-toggle-btn"
             onClick={toggleTheme}
-            style={{
-              padding: '0.625rem',
-              borderRadius: '50%',
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              transition: 'all 0.3s ease',
-              color: 'var(--text-secondary)'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = theme === 'light'
-                ? 'rgba(0, 0, 0, 0.05)'
-                : 'rgba(255, 255, 255, 0.05)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'transparent';
-            }}
             aria-label="Toggle theme"
           >
             {theme === 'light' ? (
@@ -190,25 +171,24 @@ const Navbar = () => {
         </li>
 
         <li className="navbar-menu-item">
-          <Link href={homeLink} style={{ textDecoration: 'none', color: 'inherit' }}>Home</Link>
+          <Link href={homeLink}>Home</Link>
         </li>
         <li className="navbar-menu-item">
-          <Link href="/about" style={{ textDecoration: 'none', color: 'inherit' }}>About Us</Link>
+          <Link href="/about">About Us</Link>
         </li>
         <li className="navbar-menu-item">
-          <Link href="/contact" style={{ textDecoration: 'none', color: 'inherit' }}>Contact</Link>
+          <Link href="/contact">Contact</Link>
         </li>
 
         {isSignedIn ? (
           <>
-            <li className="navbar-menu-item" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+            <li className="navbar-menu-item navbar-user-email">
               {user.primaryEmailAddress?.emailAddress}
             </li>
             <li>
-              <SignOutButton>
+              <SignOutButton redirectUrl="/">
                 <button
                   className="navbar-signup-btn"
-                  style={{ border: 'none', cursor: 'pointer' }}
                 >
                   Sign Out
                 </button>
@@ -218,13 +198,12 @@ const Navbar = () => {
         ) : (
           <>
             <li className="navbar-menu-item">
-              <Link href="/login" style={{ textDecoration: 'none', color: 'inherit' }}>Login</Link>
+              <Link href="/login">Login</Link>
             </li>
             <li>
               <Link
                 href="/signup"
                 className="navbar-signup-btn"
-                style={{ textDecoration: 'none', display: 'inline-block' }}
               >
                 Sign Up
               </Link>
@@ -246,32 +225,19 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div style={{
-          position: 'absolute',
-          top: '100%',
-          left: 0,
-          right: 0,
-          background: 'var(--bg-primary)',
-          borderBottom: '1px solid var(--border-color)',
-          padding: '1rem',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1rem',
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
-        }}>
-          <Link href={homeLink} className="navbar-menu-item" style={{ textDecoration: 'none' }}>Home</Link>
-          <Link href="/about" className="navbar-menu-item" style={{ textDecoration: 'none' }}>About Us</Link>
-          <Link href="/contact" className="navbar-menu-item" style={{ textDecoration: 'none' }}>Contact</Link>
+        <div className="mobile-menu-dropdown">
+          <Link href={homeLink} className="mobile-menu-item">Home</Link>
+          <Link href="/about" className="mobile-menu-item">About Us</Link>
+          <Link href="/contact" className="mobile-menu-item">Contact</Link>
 
           {isSignedIn ? (
             <>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', padding: '0.5rem 0' }}>
+              <div className="mobile-user-info">
                 Signed in as {user.primaryEmailAddress?.emailAddress}
               </div>
-              <SignOutButton>
+              <SignOutButton redirectUrl="/">
                 <button
-                  className="navbar-signup-btn"
-                  style={{ border: 'none', cursor: 'pointer', display: 'block', textAlign: 'center' }}
+                  className="sign-out-btn"
                 >
                   Sign Out
                 </button>
@@ -279,7 +245,7 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <Link href="/login" className="navbar-menu-item" style={{ textDecoration: 'none' }}>Login</Link>
+              <Link href="/login" className="mobile-menu-item">Login</Link>
               <Link
                 href="/signup"
                 className="navbar-signup-btn"
@@ -292,15 +258,7 @@ const Navbar = () => {
 
           <button
             onClick={toggleTheme}
-            style={{
-              padding: '0.75rem',
-              borderRadius: '50px',
-              background: 'transparent',
-              border: '2px solid var(--border-color)',
-              cursor: 'pointer',
-              color: 'var(--text-primary)',
-              fontWeight: '500'
-            }}
+            className="mobile-theme-toggle"
           >
             Switch to {theme === 'light' ? 'Dark' : 'Light'} Mode
           </button>
